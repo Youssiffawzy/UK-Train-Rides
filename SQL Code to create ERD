@@ -1,0 +1,56 @@
+-- Create Passengers Table
+CREATE TABLE Passengers (
+    Passenger_ID INT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Age INT,
+    Gender VARCHAR(10)
+);
+
+-- Create Stations Table
+CREATE TABLE Stations (
+    Station_ID INT PRIMARY KEY,
+    Station_Name VARCHAR(100) NOT NULL,
+    Location VARCHAR(100)
+);
+
+-- Create Routes Table
+CREATE TABLE Routes (
+    Route_ID INT PRIMARY KEY,
+    Start_Station INT,
+    End_Station INT,
+    Distance DECIMAL(10, 2),
+    Duration TIME,
+    FOREIGN KEY (Start_Station) REFERENCES Stations(Station_ID),
+    FOREIGN KEY (End_Station) REFERENCES Stations(Station_ID)
+);
+
+-- Create Trains Table
+CREATE TABLE Trains (
+    Train_ID INT PRIMARY KEY,
+    Train_Name VARCHAR(100) NOT NULL,
+    Route_ID INT,
+    Capacity INT,
+    FOREIGN KEY (Route_ID) REFERENCES Routes(Route_ID)
+);
+
+-- Create Tickets Table
+CREATE TABLE Tickets (
+    Ticket_ID INT PRIMARY KEY,
+    Passenger_ID INT,
+    Train_ID INT,
+    Class VARCHAR(50),
+    Price DECIMAL(10, 2),
+    Purchase_Date DATE,
+    FOREIGN KEY (Passenger_ID) REFERENCES Passengers(Passenger_ID),
+    FOREIGN KEY (Train_ID) REFERENCES Trains(Train_ID)
+);
+
+-- Create Transactions Table
+CREATE TABLE Transactions (
+    Transaction_ID INT PRIMARY KEY,
+    Ticket_ID INT,
+    Payment_Method VARCHAR(50),
+    Transaction_Date DATE,
+    Amount DECIMAL(10, 2),
+    FOREIGN KEY (Ticket_ID) REFERENCES Tickets(Ticket_ID)
+);
